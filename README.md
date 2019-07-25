@@ -6,7 +6,7 @@ Mask your str\*ng
 
 ## Usage
 
-[Add the dependency](https://jitpack.io/#toss/maskking/v0.1.0) and
+[Add the dependency](https://jitpack.io/#toss/maskking/v0.1.1) and
 follow the below examples.
 
 ### Examples
