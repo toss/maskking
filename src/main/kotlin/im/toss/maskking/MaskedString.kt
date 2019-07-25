@@ -71,7 +71,7 @@ class MaskedStringImpl(
 
 class MaskedFormattedString(
     private val format: String,
-    vararg args: Any
+    vararg args: Any?
 ): MaskedString {
 
     private val maskedArgs = args
@@ -84,7 +84,7 @@ class MaskedFormattedString(
         val unmaskedArgs = maskedArgs.map {
             when(it) {
                 is MaskedString -> it.unmasked()
-                else -> it.toString()
+                else -> it
             }
         }.toTypedArray()
         String.format(format, *unmaskedArgs)
@@ -127,7 +127,7 @@ interface MaskedString : CharSequence {
         @JsonCreator
         fun of(value: String) = MaskedStringImpl(value)
         fun of(value: String, pattern: MaskingPattern) = MaskedStringImpl(value, pattern)
-        fun format(format: String, vararg args: Any) = MaskedFormattedString(format, *args)
+        fun format(format: String, vararg args: Any?) = MaskedFormattedString(format, *args)
         fun none(value: String) = MaskedStringImpl(value, MaskingPattern.NONE)
     }
 }

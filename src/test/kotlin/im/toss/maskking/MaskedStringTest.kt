@@ -102,10 +102,10 @@ class MaskedStringTest {
         val name = MaskedString.of("테스터")
         val weekday = "월요일"
         val hello =
-            MaskedString.format("%s님, 안녕하세요. 오늘은 %s입니다.", name, weekday)
+            MaskedString.format("%s님, 안녕하세요. 오늘은 %s입니다. %s", name, weekday, null)
 
-        hello.toString().equalsTo("***님, 안녕하세요. 오늘은 월요일입니다.")
-        hello.unmasked().equalsTo("테스터님, 안녕하세요. 오늘은 월요일입니다.")
+        hello.toString().equalsTo("***님, 안녕하세요. 오늘은 월요일입니다. null")
+        hello.unmasked().equalsTo("테스터님, 안녕하세요. 오늘은 월요일입니다. null")
     }
 
     private val objectMapper = ObjectMapper().registerKotlinModule()
