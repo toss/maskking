@@ -1,6 +1,8 @@
 # maskking
 
-[![](https://jitpack.io/v/toss/maskking.svg)](https://jitpack.io/#toss/maskking)
+[![Jitpack](https://jitpack.io/v/toss/maskking.svg)](https://jitpack.io/#toss/maskking)
+[![Build Status](https://travis-ci.org/toss/maskking.svg?branch=master)](https://travis-ci.org/toss/maskking)
+[![codecov](https://codecov.io/gh/toss/maskking/branch/master/graph/badge.svg)](https://codecov.io/gh/toss/maskking)
 
 Mask your str\*ng
 
