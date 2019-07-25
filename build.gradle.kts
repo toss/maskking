@@ -23,7 +23,6 @@ plugins {
 
     id("com.palantir.git-version") version "0.11.0"
     id("com.adarshr.test-logger") version "1.6.0"
-    id("de.jansauer.printcoverage") version "2.0.0"
 }
 
 apply {
@@ -110,10 +109,6 @@ tasks {
                 }
             }
         }
-    }
-
-    printCoverage {
-        coverageType.set("INSTRUCTION")
     }
 }
 
