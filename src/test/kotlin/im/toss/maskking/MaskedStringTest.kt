@@ -14,24 +14,24 @@ class MaskedStringTest {
 
         MaskedString.of("", MaskingPattern.MIDDLE_HALF).toString().equalsTo("")
         MaskedString.of("a", MaskingPattern.MIDDLE_HALF).toString().equalsTo("*")
-        MaskedString.of( "ab", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a*")
-        MaskedString.of( "abc", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a*c")
-        MaskedString.of( "abcd", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a**d")
-        MaskedString.of( "abcde", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a***e")
-        MaskedString.of( "abcdef", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a****f")
-        MaskedString.of( "abcdefg", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a*****g")
-        MaskedString.of( "abcdefgh", MaskingPattern.MIDDLE_HALF).toString().equalsTo("ab****gh")
-        MaskedString.of( "테스터", MaskingPattern.MIDDLE_HALF).toString().equalsTo("테*터")
+        MaskedString.of("ab", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a*")
+        MaskedString.of("abc", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a*c")
+        MaskedString.of("abcd", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a**d")
+        MaskedString.of("abcde", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a***e")
+        MaskedString.of("abcdef", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a****f")
+        MaskedString.of("abcdefg", MaskingPattern.MIDDLE_HALF).toString().equalsTo("a*****g")
+        MaskedString.of("abcdefgh", MaskingPattern.MIDDLE_HALF).toString().equalsTo("ab****gh")
+        MaskedString.of("테스터", MaskingPattern.MIDDLE_HALF).toString().equalsTo("테*터")
 
         MaskedString.of("", MaskingPattern.LAST_HALF).toString().equalsTo("")
         MaskedString.of("a", MaskingPattern.LAST_HALF).toString().equalsTo("*")
         MaskedString.of("ab", MaskingPattern.LAST_HALF).toString().equalsTo("a*")
         MaskedString.of("abc", MaskingPattern.LAST_HALF) .toString().equalsTo("a**")
-        MaskedString.of( "abcd", MaskingPattern.LAST_HALF ).toString().equalsTo("ab**")
-        MaskedString.of( "abcde", MaskingPattern.LAST_HALF ).toString().equalsTo("ab***")
-        MaskedString.of( "abcdef", MaskingPattern.LAST_HALF ).toString().equalsTo("abc***")
-        MaskedString.of( "abcdefg", MaskingPattern.LAST_HALF ).toString().equalsTo("abc****")
-        MaskedString.of( "abcdefgh", MaskingPattern.LAST_HALF ).toString().equalsTo("abcd****")
+        MaskedString.of("abcd", MaskingPattern.LAST_HALF ).toString().equalsTo("ab**")
+        MaskedString.of("abcde", MaskingPattern.LAST_HALF ).toString().equalsTo("ab***")
+        MaskedString.of("abcdef", MaskingPattern.LAST_HALF ).toString().equalsTo("abc***")
+        MaskedString.of("abcdefg", MaskingPattern.LAST_HALF ).toString().equalsTo("abc****")
+        MaskedString.of("abcdefgh", MaskingPattern.LAST_HALF ).toString().equalsTo("abcd****")
         MaskedString.of("테스터", MaskingPattern.LAST_HALF).toString().equalsTo("테**")
         MaskedString.of("테스터", MaskingPattern.NONE).toString().equalsTo("테스터")
         MaskedString.none("테스터").toString().equalsTo("테스터")
@@ -42,43 +42,30 @@ class MaskedStringTest {
         val value = "테스트"
         assert(MaskedString.of(value).equals(value))
         assert(!MaskedString.of(value).equals(1))
-        assert(MaskedString.of( value, MaskingPattern.LAST_HALF).equals(value))
-        assert(MaskedString.of( value, MaskingPattern.LAST_HALF) == (MaskedString.of(value)))
+        assert(MaskedString.of(value, MaskingPattern.LAST_HALF).equals(value))
+        assert(MaskedString.of(value, MaskingPattern.LAST_HALF) == (MaskedString.of(value)))
         assert(MaskedString.format("%s", value).equals(value))
-        assert(MaskedString.format( "%s", value ).equals(MaskedString.of(value)))
-        assert(MaskedString.format( "%s", MaskedString.of(value)).equals(value))
-        assert(!MaskedString.format( "%s1", MaskedString.of(value)).equals(value))
-        assert(!MaskedString.format( "%s", MaskedString.of(value)).equals(1))
+        assert(MaskedString.format("%s", value ).equals(MaskedString.of(value)))
+        assert(MaskedString.format("%s", MaskedString.of(value)).equals(value))
+        assert(!MaskedString.format("%s1", MaskedString.of(value)).equals(value))
+        assert(!MaskedString.format("%s", MaskedString.of(value)).equals(1))
     }
 
     @Test
     fun `MaskedString hashCode는 value의 hashCode와 같아야한다`() {
         val value = "테스트"
         assert(MaskedString.of(value).hashCode() == value.hashCode())
-        assert(
-            MaskedString.of(
-                value,
-                MaskingPattern.LAST_HALF
-            ).hashCode() == value.hashCode())
+        assert(MaskedString.of(value, MaskingPattern.LAST_HALF).hashCode() == value.hashCode())
         assert(MaskedString.format("%s", value).hashCode() == value.hashCode())
-        assert(
-            MaskedString.format(
-                "%s",
-                MaskedString.of(value)
-            ).hashCode() == value.hashCode())
-        assert(
-            MaskedString.format(
-                "%s1",
-                MaskedString.of(value)
-            ).hashCode() != value.hashCode())
+        assert(MaskedString.format( "%s", MaskedString.of(value)).hashCode() == value.hashCode())
+        assert(MaskedString.format( "%s1", MaskedString.of(value)).hashCode() != value.hashCode())
     }
 
     @Test
     fun `MaskedString CharSequence`() {
         val value = "테스트"
         val maskedString = MaskedString.of(value)
-        val formatedMaskedString =
-            MaskedString.format("%s", maskedString)
+        val formatedMaskedString = MaskedString.format("%s", maskedString)
 
         assert(maskedString.length == 3)
         assert(maskedString[0] == '테' && maskedString[1] == '스' && maskedString[2] == '트')
@@ -91,10 +78,7 @@ class MaskedStringTest {
     @Test
     fun `unmasked()하면 언마스킹된 결과가 나온다`() {
         MaskedString.of("a").unmasked().equalsTo("a")
-        MaskedString.of(
-            "ab",
-            MaskingPattern.MIDDLE_HALF
-        ).unmasked().equalsTo("ab")
+        MaskedString.of("ab", MaskingPattern.MIDDLE_HALF).unmasked().equalsTo("ab")
     }
 
     @Test
