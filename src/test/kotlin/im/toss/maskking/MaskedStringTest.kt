@@ -45,6 +45,8 @@ class MaskedStringTest {
         MaskedString.of(value).doesNotEqualTo(1)
         MaskedString.of(value, MaskingPattern.LAST_HALF).doesNotEqualTo(value)
         MaskedString.of(value, MaskingPattern.LAST_HALF).equalsTo(MaskedString.of(value))
+        MaskedString.format("%s value", value).equalsTo(MaskedString.format("%s value", value))
+        MaskedString.format("%s value", value).equalsTo(MaskedString.format("%s value", MaskedString.of(value)))
         MaskedString.format("%s", value).doesNotEqualTo(value)
         MaskedString.format("%s", value ).doesNotEqualTo(MaskedString.of(value))
         MaskedString.format("%s", MaskedString.of(value)).doesNotEqualTo(value)
