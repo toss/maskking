@@ -158,13 +158,8 @@ class MaskedStringTest {
     @Test
     fun `MaskedString이 jackson으로 쓰면, String으로 쓰인다`() {
         val json1 = ObjectMapper().writeValueAsString(MaskedString.none("hello world"))
-        val json2 = ObjectMapper().writeValueAsString(
-            MaskedString.format(
-                "hello world %s",
-                ""
-            )
-        )
-        json1.equals("hello world")
-        json2.equals("hello world")
+        val json2 = ObjectMapper().writeValueAsString(MaskedString.format("hello %s", "world"))
+        json1.equalsTo("\"hello world\"")
+        json2.equalsTo("\"hello world\"")
     }
 }
