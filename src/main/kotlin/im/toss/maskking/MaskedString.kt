@@ -10,10 +10,10 @@ interface MaskedString : CharSequence {
     companion object {
         @JvmStatic
         @JsonCreator
-        fun of(value: String) = MaskedStringImpl(value)
-        fun of(value: String, pattern: MaskingPattern) = MaskedStringImpl(value, pattern)
-        fun format(format: String, vararg args: Any?) = MaskedFormattedString(format, *args)
-        fun none(value: String) = MaskedStringImpl(value, MaskingPattern.NONE)
+        fun of(value: String): MaskedString = MaskedStringImpl(value)
+        fun of(value: String, pattern: MaskingPattern): MaskedString = MaskedStringImpl(value, pattern)
+        fun format(format: String, vararg args: Any?): MaskedString = MaskedFormattedString(format, *args)
+        fun none(value: String): MaskedString = MaskedStringImpl(value, MaskingPattern.NONE)
     }
 }
 
