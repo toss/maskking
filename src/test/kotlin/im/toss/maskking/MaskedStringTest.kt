@@ -98,6 +98,18 @@ class MaskedStringTest {
     }
 
     @Test
+    fun `CharSequence타입에 대해 unmask한다`() {
+        val name: String = "김토스"
+        val maskedString1: CharSequence = MaskedString.of(name)
+        val maskedString2: CharSequence = MaskedString.format("%s님", maskedString1)
+        val maskedString3: CharSequence = MaskedString.format("%s, %s", maskedString2, maskedString2)
+
+        maskedString1.unmasked().equalsTo("김토스")
+        maskedString2.unmasked().equalsTo("김토스님")
+        maskedString3.unmasked().equalsTo("김토스님, 김토스님")
+    }
+
+    @Test
     fun `포매팅을 하면 masked string만 마스킹한다`() {
         val name = MaskedString.of("테스터")
         val weekday = "월요일"

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 
 class MaskedStringImpl(
-    private val value: String,
-    private val pattern: MaskingPattern = MaskingPattern.ALL
+        private val value: String,
+        private val pattern: MaskingPattern = MaskingPattern.ALL
 ): MaskedString {
     @JsonValue
     override fun toString(): String {
@@ -129,6 +129,13 @@ interface MaskedString : CharSequence {
         fun of(value: String, pattern: MaskingPattern) = MaskedStringImpl(value, pattern)
         fun format(format: String, vararg args: Any?) = MaskedFormattedString(format, *args)
         fun none(value: String) = MaskedStringImpl(value, MaskingPattern.NONE)
+    }
+}
+
+fun CharSequence.unmasked(): String {
+    return when(this) {
+        is MaskedString -> this.unmasked()
+        else -> this.toString()
     }
 }
 
