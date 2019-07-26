@@ -51,7 +51,6 @@ class MaskedStringImpl(
 
     override fun equals(other: Any?): Boolean {
         return when(other) {
-            is String -> value == other
             is MaskedStringImpl -> value == other.value
             else -> return super.equals(other)
         }

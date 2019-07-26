@@ -32,9 +32,8 @@ class MaskedFormattedString(
 
     override fun equals(other: Any?): Boolean {
         return when(other) {
-            is String -> unmasked.equals(other)
-            is MaskedString -> unmasked.equals(other.unmasked())
-            else -> unmasked.equals(other)
+            is MaskedFormattedString -> unmasked.equals(other.unmasked())
+            else -> super.equals(other)
         }
     }
 

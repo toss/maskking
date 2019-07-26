@@ -39,17 +39,17 @@ class MaskedStringTest {
     }
 
     @Test
-    fun `MaskedString equals는 다른 String 또는 MaskedString의 값과 비교할 수 있다`() {
+    fun `MaskedString equals는 같은 타입이고 값이 같아야만 equal이다`() {
         val value = "테스트"
-        assert(MaskedString.of(value).equals(value))
-        assert(!MaskedString.of(value).equals(1))
-        assert(MaskedString.of(value, MaskingPattern.LAST_HALF).equals(value))
-        assert(MaskedString.of(value, MaskingPattern.LAST_HALF) == (MaskedString.of(value)))
-        assert(MaskedString.format("%s", value).equals(value))
-        assert(MaskedString.format("%s", value ).equals(MaskedString.of(value)))
-        assert(MaskedString.format("%s", MaskedString.of(value)).equals(value))
-        assert(!MaskedString.format("%s1", MaskedString.of(value)).equals(value))
-        assert(!MaskedString.format("%s", MaskedString.of(value)).equals(1))
+        MaskedString.of(value).doesNotEqualTo(value)
+        MaskedString.of(value).doesNotEqualTo(1)
+        MaskedString.of(value, MaskingPattern.LAST_HALF).doesNotEqualTo(value)
+        MaskedString.of(value, MaskingPattern.LAST_HALF).equalsTo(MaskedString.of(value))
+        MaskedString.format("%s", value).doesNotEqualTo(value)
+        MaskedString.format("%s", value ).doesNotEqualTo(MaskedString.of(value))
+        MaskedString.format("%s", MaskedString.of(value)).doesNotEqualTo(value)
+        MaskedString.format("%s1", MaskedString.of(value)).doesNotEqualTo(value)
+        MaskedString.format("%s", MaskedString.of(value)).doesNotEqualTo(1)
     }
 
     @Test
