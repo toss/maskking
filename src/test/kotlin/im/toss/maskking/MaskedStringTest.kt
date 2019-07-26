@@ -3,6 +3,7 @@ package im.toss.maskking
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import im.toss.test.doesNotEqualTo
 import im.toss.test.equalsTo
 import org.junit.jupiter.api.Test
 
@@ -62,17 +63,17 @@ class MaskedStringTest {
     }
 
     @Test
-    fun `MaskedString CharSequence`() {
+    fun `MaskedString CharSequence로 값에 접근하면 masked value를 반환한다`() {
         val value = "테스트"
         val maskedString = MaskedString.of(value)
         val formatedMaskedString = MaskedString.format("%s", maskedString)
 
         assert(maskedString.length == 3)
-        assert(maskedString[0] == '테' && maskedString[1] == '스' && maskedString[2] == '트')
-        assert(maskedString.subSequence(1,3) == "스트")
+        assert(maskedString[0] == '*' && maskedString[1] == '*' && maskedString[2] == '*')
+        assert(maskedString.subSequence(1,3) == "**")
         assert(formatedMaskedString.length == 3)
-        assert(formatedMaskedString[0] == '테' && formatedMaskedString[1] == '스' && formatedMaskedString[2] == '트')
-        assert(formatedMaskedString.subSequence(1,3) == "스트")
+        assert(formatedMaskedString[0] == '*' && formatedMaskedString[1] == '*' && formatedMaskedString[2] == '*')
+        assert(formatedMaskedString.subSequence(1,3) == "**")
     }
 
     @Test

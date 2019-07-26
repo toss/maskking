@@ -44,13 +44,13 @@ class MaskedFormattedString(
 
     override val length: Int
         @JsonIgnore
-        get() = unmasked.length
+        get() = masked.length
 
     override fun get(index: Int): Char {
-        return unmasked[index]
+        return masked[index]
     }
 
     override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
-        return unmasked.subSequence(startIndex, endIndex)
+        return masked.subSequence(startIndex, endIndex)
     }
 }

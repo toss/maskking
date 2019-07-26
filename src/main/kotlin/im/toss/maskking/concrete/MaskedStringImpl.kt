@@ -9,9 +9,8 @@ class MaskedStringImpl(
         private val value: String,
         private val pattern: MaskingPattern = MaskingPattern.ALL
 ): MaskedString {
-    @JsonValue
-    override fun toString(): String {
-        return when (pattern) {
+    private val masked by lazy {
+        when (pattern) {
             MaskingPattern.NONE -> value
             MaskingPattern.ALL -> "*".repeat(value.length)
             MaskingPattern.MIDDLE_HALF -> {
@@ -31,16 +30,21 @@ class MaskedStringImpl(
                 val last = value.substring(value.length - lastSize)
                 val mid = "*".repeat(value.length - firstSize - lastSize)
 
-                return first + mid + last
+                first + mid + last
             }
             MaskingPattern.LAST_HALF -> {
                 val firstSize = value.length / 2
                 val first = value.substring(0, firstSize)
                 val last = "*".repeat(value.length - firstSize)
 
-                return first + last
+                first + last
             }
         }
+    }
+
+    @JsonValue
+    override fun toString(): String {
+        return masked
     }
 
     override fun unmasked() = value
@@ -59,13 +63,13 @@ class MaskedStringImpl(
 
     override val length: Int
         @JsonIgnore
-        get() = value.length
+        get() = masked.length
 
     override fun get(index: Int): Char {
-        return value[index]
+        return masked[index]
     }
 
     override fun subSequence(startIndex: Int, endIndex: Int): CharSequence {
-        return value.subSequence(startIndex, endIndex)
+        return masked.subSequence(startIndex, endIndex)
     }
 }
