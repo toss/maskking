@@ -4,31 +4,31 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 import im.toss.maskking.MaskedString
 
-
-class MaskedFormattedString(
-        private val format: String,
-        vararg args: Any?
+internal class MaskedFormattedString(
+    private val args: List<Any?>,
+    private val formatter: (args: List<Any?>) -> String
 ): MaskedString {
 
     private val maskedArgs = args
 
     private val masked by lazy {
-        String.format(format, *maskedArgs)
+        formatter.invoke(maskedArgs)
     }
 
     private val unmasked by lazy {
-        val unmaskedArgs = maskedArgs.map {
+        val unmaskedArgs = args.map {
             when(it) {
                 is MaskedString -> it.unmasked()
                 else -> it
             }
-        }.toTypedArray()
-        String.format(format, *unmaskedArgs)
+        }
+        formatter.invoke(unmaskedArgs)
     }
+
+    override fun unmasked() = unmasked
 
     @JsonValue
     override fun toString() = masked
-    override fun unmasked() = unmasked
 
     override fun equals(other: Any?): Boolean {
         return when(other) {

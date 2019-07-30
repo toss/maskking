@@ -102,7 +102,7 @@ class MaskedStringTest {
         val name = MaskedString.of("테스터")
         val weekday = "월요일"
         val hello =
-            MaskedString.format("%s님, 안녕하세요. 오늘은 %s입니다. %s", name, weekday, null)
+                MaskedString.format("%s님, 안녕하세요. 오늘은 %s입니다. %s", name, weekday, null)
 
         hello.toString().equalsTo("***님, 안녕하세요. 오늘은 월요일입니다. null")
         hello.unmasked().equalsTo("테스터님, 안녕하세요. 오늘은 월요일입니다. null")
@@ -148,5 +148,18 @@ class MaskedStringTest {
         val json2 = ObjectMapper().writeValueAsString(MaskedString.format("hello %s", "world"))
         json1.equalsTo("\"hello world\"")
         json2.equalsTo("\"hello world\"")
+    }
+
+    @Test
+    fun `Supports user-defined formatter`() {
+        val masked = MaskedString.format(
+            "Hello",
+            MaskedString.of("tester")
+        ) { (greet, name) ->
+            "$greet, $name"
+        }
+
+        masked.toString().equalsTo("Hello, ******")
+        masked.unmasked().equalsTo("Hello, tester")
     }
 }
