@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonValue
 import im.toss.maskking.MaskedString
 import im.toss.maskking.MaskingPattern
 
-class MaskedStringImpl(
-        private val value: String,
-        private val pattern: MaskingPattern = MaskingPattern.ALL
+internal class MaskedStringImpl(
+    private val value: String,
+    private val pattern: MaskingPattern = MaskingPattern.ALL
 ): MaskedString {
     private val masked by lazy {
         when (pattern) {
