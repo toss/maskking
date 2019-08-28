@@ -24,8 +24,9 @@ interface MaskedString : CharSequence {
     }
 }
 
-fun CharSequence.unmasked(): String {
+fun CharSequence?.unmasked(): String? {
     return when(this) {
+        null -> null
         is MaskedString -> this.unmasked()
         else -> this.toString()
     }

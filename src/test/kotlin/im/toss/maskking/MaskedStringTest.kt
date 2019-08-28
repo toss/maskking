@@ -95,6 +95,7 @@ class MaskedStringTest {
         maskedString1.unmasked().equalsTo("김토스")
         maskedString2.unmasked().equalsTo("김토스님")
         maskedString3.unmasked().equalsTo("김토스님, 김토스님")
+        null.unmasked().equalsTo(null)
     }
 
     @Test
