@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue
 import im.toss.maskking.MaskedString
 
 internal class MaskedFormattedString(
-    private val args: List<Any?>,
-    private val formatter: (args: List<Any?>) -> String
+    args: Any?,
+    private val formatter: (args: Any?) -> String
 ): MaskedString {
 
     private val maskedArgs = args
@@ -16,14 +16,24 @@ internal class MaskedFormattedString(
     }
 
     private val unmasked by lazy {
-        val unmaskedArgs = args.map {
-            when(it) {
-                is MaskedString -> it.unmasked()
-                else -> it
-            }
-        }
-        formatter.invoke(unmaskedArgs)
+        formatter.invoke(unmaskedValue(args))
     }
+
+    private fun unmaskedMap(args: Map<*, *>) =
+        args.map { pair ->
+            pair.key to unmaskedValue(pair.value)
+        }.toMap()
+
+    private fun unmaskedCollection(args: Collection<*>) =
+        args.map { unmaskedValue(it) }
+
+    private fun unmaskedValue(value: Any?): Any? =
+        when(value) {
+            is MaskedString -> value.unmasked()
+            is Map<*, *> -> unmaskedMap(value)
+            is Collection<*> -> unmaskedCollection(value)
+            else -> value
+        }
 
     override fun unmasked() = unmasked
 
@@ -32,7 +42,7 @@ internal class MaskedFormattedString(
 
     override fun equals(other: Any?): Boolean {
         return when(other) {
-            is MaskedFormattedString -> unmasked.equals(other.unmasked())
+            is MaskedFormattedString -> unmasked == other.unmasked()
             else -> super.equals(other)
         }
     }

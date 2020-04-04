@@ -51,10 +51,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.3.1")
     testImplementation("io.mockk:mockk:1.8.13")
     testImplementation("org.assertj:assertj-core:3.12.2")
+    testImplementation("com.github.toss:assert-extensions:0.2.0")
 }
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 }
 
 val compileKotlin: KotlinCompile by tasks

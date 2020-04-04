@@ -52,6 +52,7 @@ class MaskedStringTest {
         MaskedString.format("%s", MaskedString.of(value)).doesNotEqualTo(value)
         MaskedString.format("%s1", MaskedString.of(value)).doesNotEqualTo(value)
         MaskedString.format("%s", MaskedString.of(value)).doesNotEqualTo(1)
+        MaskedString.format(mapOf("a" to "b")) { _: Map<*, *> -> value }.doesNotEqualTo(value)
     }
 
     @Test
@@ -62,6 +63,7 @@ class MaskedStringTest {
         assert(MaskedString.format("%s", value).hashCode() == value.hashCode())
         assert(MaskedString.format( "%s", MaskedString.of(value)).hashCode() == value.hashCode())
         assert(MaskedString.format( "%s1", MaskedString.of(value)).hashCode() != value.hashCode())
+        assert(MaskedString.format(mapOf("a" to "b")) { _: Map<*, *> -> value }.hashCode() == value.hashCode())
     }
 
     @Test
@@ -162,5 +164,56 @@ class MaskedStringTest {
 
         masked.toString().equalsTo("Hello, ******")
         masked.unmasked().equalsTo("Hello, tester")
+    }
+
+    @Test
+    fun `Supports map`() {
+        val masked = MaskedString.format(
+            mapOf(
+                "greet" to "Hello",
+                "name" to MaskedString.of("tester")
+            )
+        ) { args: Map<*, *> ->
+            "${args["greet"]}, ${args["name"]}"
+        }
+
+        masked.toString().equalsTo("Hello, ******")
+        masked.unmasked().equalsTo("Hello, tester")
+    }
+
+    @Test
+    fun `Supports deep map`() {
+        val masked = MaskedString.format(
+            mapOf(
+                "user" to mapOf(
+                    "name" to MaskedString.of("Yi"),
+                    "address" to "Seoul"
+                )
+            )
+        ) { args: Map<*, *> ->
+            val user = args["user"] as Map<*, *>
+            "${user["name"]} lives in ${user["address"]}"
+        }
+
+        masked.toString().equalsTo("** lives in Seoul")
+        masked.unmasked().equalsTo("Yi lives in Seoul")
+    }
+
+    @Test
+    fun `Supports deep map with null`() {
+        val masked = MaskedString.format(
+            mapOf(
+                "user" to mapOf(
+                    "name" to MaskedString.of("Yi"),
+                    "address" to "Seoul"
+                )
+            )
+        ) { args: Map<*, *> ->
+            val user = args["user"] as Map<*, *>
+            "${user["name"]} lives in ${user["address"]}"
+        }
+
+        masked.toString().equalsTo("** lives in Seoul")
+        masked.unmasked().equalsTo("Yi lives in Seoul")
     }
 }

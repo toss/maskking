@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import im.toss.maskking.concrete.MaskedFormattedString
 import im.toss.maskking.concrete.MaskedStringImpl
 
-interface Formatter {
-    fun format(vararg args: Any?): String
-}
-
 interface MaskedString : CharSequence {
     fun unmasked(): String
 
@@ -16,10 +12,15 @@ interface MaskedString : CharSequence {
         @JsonCreator
         fun of(value: String): MaskedString = MaskedStringImpl(value)
         fun of(value: String, pattern: MaskingPattern): MaskedString = MaskedStringImpl(value, pattern)
-        fun format(format: String, vararg args: Any?): MaskedString = MaskedFormattedString(args.toList()) { it ->
-            String.format(format, *(it.toTypedArray()))
+        fun format(format: String, vararg args: Any?): MaskedString = MaskedFormattedString(args.toList()) {
+            String.format(format, *((it as List<Any?>).toTypedArray()))
         }
-        fun format(vararg args: Any?, formatter: (args: List<Any?>) -> String): MaskedString = MaskedFormattedString(args.toList(), formatter)
+        fun format(vararg args: Any?, formatter: (args: List<Any?>) -> String): MaskedString = MaskedFormattedString(args.toList()) {
+            formatter.invoke(it as List<Any?>)
+        }
+        fun format(args: Map<*, *>, formatter: (args: Map<*, *>) -> String): MaskedString = MaskedFormattedString(args) {
+            formatter.invoke(it as Map<*, *>)
+        }
         fun none(value: String): MaskedString = MaskedStringImpl(value, MaskingPattern.NONE)
     }
 }
