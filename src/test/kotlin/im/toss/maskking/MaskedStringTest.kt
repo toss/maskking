@@ -216,4 +216,14 @@ class MaskedStringTest {
         masked.toString().equalsTo("** lives in Seoul")
         masked.unmasked().equalsTo("Yi lives in Seoul")
     }
+
+    @Test
+    fun `toString should not throw exception`() {
+        val masked = MaskedString.format("abc") {
+            throw RuntimeException()
+        }
+
+        masked.toString()
+        masked.unmasked()
+    }
 }

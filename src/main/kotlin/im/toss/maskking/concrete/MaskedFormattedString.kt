@@ -3,6 +3,10 @@ package im.toss.maskking.concrete
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonValue
 import im.toss.maskking.MaskedString
+import im.toss.maskking.log.cover
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger(cover {})
 
 internal class MaskedFormattedString(
     args: Any?,
@@ -12,11 +16,21 @@ internal class MaskedFormattedString(
     private val maskedArgs = args
 
     private val masked by lazy {
-        formatter.invoke(maskedArgs)
+        try {
+            formatter.invoke(maskedArgs)
+        } catch (e: Exception) {
+            logger.error("Failed to format with masked arguments", e)
+            ""
+        }
     }
 
     private val unmasked by lazy {
-        formatter.invoke(unmaskedValue(args))
+        try {
+            formatter.invoke(unmaskedValue(args))
+        } catch (e: Exception) {
+            logger.error("Failed to format with unmasked arguments", e)
+            ""
+        }
     }
 
     private fun unmaskedMap(args: Map<*, *>) =
