@@ -40,7 +40,7 @@ configure<JavaPluginConvention> {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("com.google.guava:guava:27.1-jre")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.9.0")
     implementation("com.fasterxml.jackson.core:jackson-core:2.9.9")
